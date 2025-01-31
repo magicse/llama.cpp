@@ -8,21 +8,13 @@
 #include <thread>
 #include <vector>
 
+#include "common.h"
+
 int common_log_verbosity_thold = LOG_DEFAULT_LLAMA;
 
 void common_log_set_verbosity_thold(int verbosity) {
     common_log_verbosity_thold = verbosity;
 }
-
-#define LOG_COL_DEFAULT "\033[0m"
-#define LOG_COL_BOLD    "\033[1m"
-#define LOG_COL_RED     "\033[31m"
-#define LOG_COL_GREEN   "\033[32m"
-#define LOG_COL_YELLOW  "\033[33m"
-#define LOG_COL_BLUE    "\033[34m"
-#define LOG_COL_MAGENTA "\033[35m"
-#define LOG_COL_CYAN    "\033[36m"
-#define LOG_COL_WHITE   "\033[37m"
 
 static int64_t t_us() {
     return std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
@@ -193,9 +185,9 @@ public:
             std::stringstream ss;
             for (int i = 0; fmt[i] != 0; i++) {
                 if (fmt[i] == '%') {
-                    ss << LOG_COL_BOLD;
+                    ss << COL_BOLD;
                     while (fmt[i] != ' ' && fmt[i] != ')' && fmt[i] != ']' && fmt[i] != 0) ss << fmt[i++];
-                    ss << LOG_COL_DEFAULT;
+                    ss << COL_DEFAULT;
                     if (fmt[i] == 0) break;
                 }
                 ss << fmt[i];
@@ -320,15 +312,15 @@ public:
         pause();
 
         if (colors) {
-            g_col[COMMON_LOG_COL_DEFAULT] = LOG_COL_DEFAULT;
-            g_col[COMMON_LOG_COL_BOLD]    = LOG_COL_BOLD;
-            g_col[COMMON_LOG_COL_RED]     = LOG_COL_RED;
-            g_col[COMMON_LOG_COL_GREEN]   = LOG_COL_GREEN;
-            g_col[COMMON_LOG_COL_YELLOW]  = LOG_COL_YELLOW;
-            g_col[COMMON_LOG_COL_BLUE]    = LOG_COL_BLUE;
-            g_col[COMMON_LOG_COL_MAGENTA] = LOG_COL_MAGENTA;
-            g_col[COMMON_LOG_COL_CYAN]    = LOG_COL_CYAN;
-            g_col[COMMON_LOG_COL_WHITE]   = LOG_COL_WHITE;
+            g_col[COMMON_LOG_COL_DEFAULT] = COL_DEFAULT;
+            g_col[COMMON_LOG_COL_BOLD]    = COL_BOLD;
+            g_col[COMMON_LOG_COL_RED]     = COL_RED;
+            g_col[COMMON_LOG_COL_GREEN]   = COL_GREEN;
+            g_col[COMMON_LOG_COL_YELLOW]  = COL_YELLOW;
+            g_col[COMMON_LOG_COL_BLUE]    = COL_BLUE;
+            g_col[COMMON_LOG_COL_MAGENTA] = COL_MAGENTA;
+            g_col[COMMON_LOG_COL_CYAN]    = COL_CYAN;
+            g_col[COMMON_LOG_COL_WHITE]   = COL_WHITE;
         } else {
             for (size_t i = 0; i < g_col.size(); i++) {
                 g_col[i] = "";
